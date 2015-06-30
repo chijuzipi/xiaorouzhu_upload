@@ -19,8 +19,10 @@ $(document).ready(function(){
       return;
     }
 
-    var productName = $("#productName").val();
+    var productName  = $("#productName").val();
     var productPrice = $("#productPrice").val();
+    var productDesc  = $("#productDesc").val();
+    var productType  = $("#typeSelect option:selected").text();
     var fileSavePromises = [];
 
     var i = 0;
@@ -42,9 +44,12 @@ $(document).ready(function(){
     Parse.Promise.when(fileSavePromises).then(function() {
       // all files have saved now, do other stuff here
       console.log("infos saved successfully");
-      var product = new Parse.Object("Bag")
-      product.set("product_name", productName);
+      var product = new Parse.Object("Product")
+      product.set("product_name" , productName);
       product.set("product_price", productPrice);
+      product.set("product_desc" , productDesc);
+      product.set("product_type" , productType);
+
       for(i=0; i<fileArray.length; i++) {
         product.set("image"+"_"+i, fileArray[i]);
       }

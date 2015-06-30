@@ -11,18 +11,34 @@
   </head>
 
   <body>
-    <img src="piggy_bear.png" height="75" width="75">
+    <img src="piggy_bear.png" height="100" width="100">
     <br>
-    <input type="text" id="productName" value="Product Name" onClick="this.select();"></input>
+    <li>Name:</li>
+    <input type="text" id="productName" onClick="this.select();"></input>
     <br>
-    <input type="text" id="productPrice" value="Product Price" onClick="this.select();"></input>
     <br>
-    <textarea id="productDesc" cols="40" rows="5" onClick="this.select()" value="描述">product description</textarea>
+    <li>Price:</li>
+    <input type="text" id="productPrice" onClick="this.select();">元</input>
     <br>
+    <br>
+    <li>Description:</li>
+    <textarea id="productDesc" cols="40" rows="5" onClick="this.select()" value="描述"></textarea>
+    <br>
+    <br>
+    <li>Images:</li>
     <input type="file" id="imageUpload" multiple>
     <br>
     <br>
-    <input type="submit" id="save" value="upload">
+    <li>Type:</li>
+    <select id="typeSelect">
+      <option value="Bag">Bag</option>
+      <option value="Nutrition">Nutrition</option>
+      <option value="Cosmetics">Cosmetics</option>
+      <option value="Other">Other</option>
+    </select>
+    <br>
+    <br>
+    <input type="submit" id="save" value="upload" style="height:200px; width:250px">
   </body>
 
 </html>
