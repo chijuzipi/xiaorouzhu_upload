@@ -1,4 +1,4 @@
-Parse.initialize("cMob1z3wF1FNpAWlw4o4vbalOP2EAGEcEzmnK4PI", "3tLjw7zJ9KGPGLCeWKDEZXL3c3xWjp1dh7XWl05j");
+AV.initialize("81s57z30iss714rpsvmgm3rsuxiha4imqz7adqtozc9iyzhr", "4nrfo1hcwq6omwxa3maod5fmvwoc1gk3ogfh7ro9ookvdexh");
 
 $(document).ready(function(){
   var productName; 
@@ -46,7 +46,7 @@ $(document).ready(function(){
 
     //save individual files
     _.each(fileToSave, function(file) {
-      var parseFile = new Parse.File("photo_" + i + ".jpg", file);
+      var parseFile = new AV.File("photo_" + i + ".jpg", file);
       i++;
       fileArray.push(parseFile);
       fileSavePromises.push(
@@ -57,10 +57,10 @@ $(document).ready(function(){
     });
 
     //connect the object with the saved file
-    Parse.Promise.when(fileSavePromises).then(function() {
+    AV.Promise.when(fileSavePromises).then(function() {
       // all files have saved now, do other stuff here
       console.log("infos saved successfully");
-      var product = new Parse.Object("Product")
+      var product = new AV.Object("Product")
       product.set("product_name"  , productName);
       product.set("product_price" , productPrice);
       product.set("product_desc"  , productDesc);
