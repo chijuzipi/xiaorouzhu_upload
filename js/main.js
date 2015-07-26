@@ -82,12 +82,14 @@ $(document).ready(function(){
   });
   
   function buildDict(dict){
-    dict['Handbag']      = ['Coach', 'MK', 'Rebecca_Minkoff', 'Kate_Spade', 'wallet', 'other'];
+    dict['Handbag']      = ['Coach', 'MK', 'Rebecca_Minkoff', 'Kate_Spade', 'other'];
+    dict['Bag']          = ['Coach', 'MK', 'Rebecca_Minkoff', 'Kate_Spade', 'other'];
     dict['Cloth']        = ['Tommy', 'CK', 'A_F', 'Levis', 'US_POLO_ASSN', 'shoe', 'other'];
     dict['Jewel']        = ['Swarovski', 'Juicy_Couture','other'];
     dict['Nutrition']    = ['GNC', 'MoveFree', 'Puritans_Pride','other'];
     dict['Cosmetics']    = ['Lancome', 'Clinique', 'Esteem_Lauder', 'Kiehls','Origins','other'];
     dict['Baby']         = ['baby_healthy', 'baby_feeding', 'baby_daily','other'];
+    dict['Other']        = ['other'];
   }
 
   function generateBrand(brandArray){
