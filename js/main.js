@@ -1,5 +1,5 @@
-//AV.initialize("81s57z30iss714rpsvmgm3rsuxiha4imqz7adqtozc9iyzhr", "4nrfo1hcwq6omwxa3maod5fmvwoc1gk3ogfh7ro9ookvdexh");
-Parse.initialize("cMob1z3wF1FNpAWlw4o4vbalOP2EAGEcEzmnK4PI", "3tLjw7zJ9KGPGLCeWKDEZXL3c3xWjp1dh7XWl05j");
+AV.initialize("81s57z30iss714rpsvmgm3rsuxiha4imqz7adqtozc9iyzhr", "4nrfo1hcwq6omwxa3maod5fmvwoc1gk3ogfh7ro9ookvdexh");
+//Parse.initialize("cMob1z3wF1FNpAWlw4o4vbalOP2EAGEcEzmnK4PI", "3tLjw7zJ9KGPGLCeWKDEZXL3c3xWjp1dh7XWl05j");
 
 $(document).ready(function(){
   var productName; 
@@ -24,6 +24,14 @@ $(document).ready(function(){
 
     var fileuploadcontrol = $("#imageUpload")[0];
     var L = fileuploadcontrol.files.length;
+    if (! $( "#counterDesc" ).length)
+      $( "body" ).append( "<p id='counterDesc'>一共选择了" + L + "张图片</p>" );
+    else
+      $( "#counterDesc" ).html( "一共选择了" + L + "张图片" );
+      
+    if (! $( "#counter" ).length)
+      $( "body" ).append( "<p id='counter'>已上传0张</p>" );
+
     var fileToSave = [];
     if(L>0){
       fileToSave = fileuploadcontrol.files;
@@ -43,44 +51,48 @@ $(document).ready(function(){
     var fileSavePromises = [];
     
     var i = 0;
+    var j = 0;
     var fileArray = [];
+    
+    //build the product
+    var product = new AV.Object("Product")
+    product.set("product_name"  , productName);
+    product.set("product_price" , productPrice);
+    product.set("product_desc"  , productDesc);
+    product.set("product_type"  , productType);
+    product.set("product_brand" , productBrand);
 
-    //save individual files
-    _.each(fileToSave, function(file) {
-      //var parseFile = new AV.File("photo_" + i + ".jpg", file);
-      var parseFile = new Parse.File("photo_" + i + ".jpg", file);
+    var myInter = setInterval(function(){
+
+      file = fileToSave[i];
       i++;
-      fileArray.push(parseFile);
-      fileSavePromises.push(
-        parseFile.save().then(function() {
+      var saveFile = new AV.File("photo_" + i + ".jpg", file);
+      //var saveFile = new Parse.File("photo_" + i + ".jpg", file);
+
+      fileArray.push(saveFile);
+
+      //console.log("uploading file");
+      if (i <= fileToSave.length){
+        saveFile.save().then(function() {
           console.log("single image saved");
+          product.set("image"+"_"+j, fileArray[j]);
+          j++;
+          $('#counter').html("已上传" + j + "张");
+          if(j == fileToSave.length){
+            product.save();
+            document.getElementById("save").disabled = false; 
+            console.log("upload DONE");
+          }
         })
-      );
-    });
-
-    //connect the object with the saved file
-    //AV.Promise.when(fileSavePromises).then(function() {
-    Parse.Promise.when(fileSavePromises).then(function() {
-      // all files have saved now, do other stuff here
-      console.log("infos saved successfully");
-      //var product = new AV.Object("Product")
-      var product = new Parse.Object("Product")
-      product.set("product_name"  , productName);
-      product.set("product_price" , productPrice);
-      product.set("product_desc"  , productDesc);
-      product.set("product_type"  , productType);
-      product.set("product_brand" , productBrand);
-
-      for(i=0; i<fileArray.length; i++) {
-        product.set("image"+"_"+i, fileArray[i]);
       }
-      product.save();
-      document.getElementById("save").disabled = false; 
-      $( "body" ).append( "<p>upload successfully!</p>" );
-    });
+      else{
+        console.log("uploading interval cleared");
+        clearInterval(myInter);
+      }
 
+    }, 2000);
   });
-  
+
   function buildDict(dict){
     dict['Handbag']      = ['Coach', 'MK', 'Rebecca_Minkoff', 'Kate_Spade', 'other'];
     dict['Bag']          = ['Coach', 'MK', 'Rebecca_Minkoff', 'Kate_Spade', 'other'];
