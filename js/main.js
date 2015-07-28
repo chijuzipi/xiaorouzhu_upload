@@ -82,6 +82,9 @@ $(document).ready(function(){
             product.save();
             document.getElementById("save").disabled = false; 
             console.log("upload DONE");
+            $("#productName").val('')
+            $("#productPrice").val('')
+            $("#productDesc").val('')
           }
         })
       }
